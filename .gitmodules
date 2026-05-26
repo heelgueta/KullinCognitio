@@ -1,0 +1,9 @@
+[submodule "CulpemCorpus"]
+	path = CulpemCorpus
+	url = https://github.com/heelgueta/CulpemCorpus.git
+[submodule "YeneConservatio"]
+	path = YeneConservatio
+	url = https://github.com/heelgueta/YeneConservatio.git
+[submodule "LlallinRelatio"]
+	path = LlallinRelatio
+	url = https://github.com/heelgueta/LlallinRelatio.git

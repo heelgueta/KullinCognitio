@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MolfunCognitio</title>
+<style>
+  :root {
+    --bg:      #0f0d12;
+    --surface: #1a1822;
+    --surface2:#252230;
+    --border:  #2a2735;
+    --accent:  #c4a86a;     /* warm gold — the umbrella color */
+    --text:    #d8d6e0;
+    --muted:   #6a6878;
+    --ok:      #4caf7d;
+    --warn:    #e8b43a;
+    --err:     #d05050;
+    --radius:  10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+    padding: 50px 30px 40px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 26px;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 13px;
+    font-style: italic;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 18px;
+  }
+
+  .app-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 22px 18px;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .app-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--card-accent, var(--border));
+  }
+  .app-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.3);
+  }
+
+  .app-emoji { font-size: 42px; line-height: 1; margin-bottom: 12px; }
+  .app-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
+  .app-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    min-height: 32px;
+    line-height: 1.5;
+  }
+
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-size: 11px;
+  }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: background .3s, box-shadow .3s;
+    flex-shrink: 0;
+  }
+  .status-dot.ok  { background: var(--ok);  box-shadow: 0 0 9px rgba(76,175,125,.7); }
+  .status-dot.err { background: var(--err); }
+  .status-text { color: var(--muted); flex: 1; }
+  .status-text.ok  { color: var(--ok); }
+  .status-text.err { color: var(--err); }
+  .port-pill {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  .app-actions { display: flex; gap: 8px; }
+  .btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: opacity .15s, transform .1s;
+    letter-spacing: .3px;
+  }
+  .btn:hover:not(.disabled) { opacity: .85; }
+  .btn:active:not(.disabled) { transform: translateY(1px); }
+  .btn.primary { color: #fff; }
+  .btn.disabled, .btn:disabled {
+    background: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+    opacity: .55;
+  }
+
+  .meta {
+    margin-top: 45px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .meta code {
+    background: var(--surface);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--text);
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>🐾 MolfunCognitio</h1>
+    <p>fauna del saber &mdash; suite de herramientas para investigación con corpus de prensa</p>
+  </header>
+
+  <div class="apps-grid" id="apps-grid"></div>
+
+  <div class="meta">
+    Estado se actualiza cada 3 segundos · <code>Ctrl+C</code> en la terminal para detener todo
+  </div>
+
+</div>
+
+<script>
+const APPS = {{ apps|tojson }};
+let statusCache = {};
+
+function renderApps() {
+  const grid = document.getElementById('apps-grid');
+  grid.innerHTML = '';
+  APPS.forEach(app => {
+    const s = statusCache[app.id] || { installed: false, running: false };
+
+    let dotCls = '', txt = 'no instalado', txtCls = '';
+    if (s.running)        { dotCls = 'ok';  txt = 'corriendo';   txtCls = 'ok'; }
+    else if (s.installed) { dotCls = 'err'; txt = 'detenido';    txtCls = 'err'; }
+
+    const card = document.createElement('div');
+    card.className = 'app-card';
+    card.style.setProperty('--card-accent', app.accent);
+    card.innerHTML = `
+      <div class="app-emoji">${app.emoji}</div>
+      <div class="app-name" style="color:${app.accent}">${app.name}</div>
+      <div class="app-desc">${app.desc}</div>
+      <div class="status-row">
+        <div class="status-dot ${dotCls}"></div>
+        <div class="status-text ${txtCls}">${txt}</div>
+        <div class="port-pill">:${app.port}</div>
+      </div>
+      <div class="app-actions">
+        ${s.running
+          ? `<a class="btn primary" style="background:${app.accent}" href="http://localhost:${app.port}" target="_blank">Abrir →</a>`
+          : `<button class="btn disabled" disabled>${s.installed ? 'No disponible' : 'No instalado'}</button>`}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+async function pollStatus() {
+  try {
+    const res = await fetch('/status');
+    statusCache = await res.json();
+    renderApps();
+  } catch (e) { /* silent */ }
+}
+
+renderApps();
+pollStatus();
+setInterval(pollStatus, 3000);
+</script>
+
+</body>
+</html>
