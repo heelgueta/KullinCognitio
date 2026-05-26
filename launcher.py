@@ -23,7 +23,7 @@ import requests
 from flask import Flask, jsonify, render_template
 
 HERE           = Path(__file__).parent.resolve()
-DASHBOARD_PORT = 5000
+DASHBOARD_PORT = 5050   # 5000 is taken by macOS AirPlay Receiver by default
 
 APPS = [
     {

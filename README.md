@@ -10,7 +10,7 @@
 | 🐋 | **YeneConservatio** | 5002 | Archivo local persistente de medios |
 | 🕷️ | **LlallinRelatio**  | 5003 | Red de conceptos desde corpus (Gephi) |
 
-Dashboard en [`localhost:5000`](http://localhost:5000).
+Dashboard en [`localhost:5050`](http://localhost:5050).
 
 ---
 
@@ -42,7 +42,7 @@ python launcher.py
 
 Esto:
 - Levanta las tres apps en sus puertos (5001, 5002, 5003)
-- Sirve un dashboard en `localhost:5000` con estado en vivo
+- Sirve un dashboard en `localhost:5050` con estado en vivo
 - Abre el navegador automáticamente
 
 **Detener todo:** `Ctrl+C` en la terminal del launcher.
