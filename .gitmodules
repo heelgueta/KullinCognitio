@@ -7,3 +7,12 @@
 [submodule "LlallinRelatio"]
 	path = LlallinRelatio
 	url = https://github.com/heelgueta/LlallinRelatio.git
+[submodule "ÑarkiMundatio"]
+	path = ÑarkiMundatio
+	url = https://github.com/heelgueta/NarkiMundatio.git
+[submodule "MañkeAnalytica"]
+	path = MañkeAnalytica
+	url = https://github.com/heelgueta/MankeAnalytica.git
+[submodule "FiluSententia"]
+	path = FiluSententia
+	url = https://github.com/heelgueta/FiluSententia.git
