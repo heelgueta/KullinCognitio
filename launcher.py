@@ -53,6 +53,24 @@ APPS = [
         "accent": "#3aab8f",
         "desc":   "Red de conceptos desde corpus (Gephi)",
     },
+    {
+        "id":     "narki",
+        "name":   "ÑarkiMundatio",
+        "dir":    "ÑarkiMundatio",
+        "port":   5004,
+        "emoji":  "🐱",
+        "accent": "#d4a86a",
+        "desc":   "Limpieza y estandarización de textos del corpus",
+    },
+    {
+        "id":     "manke",
+        "name":   "MañkeAnalytica",
+        "dir":    "MañkeAnalytica",
+        "port":   5005,
+        "emoji":  "🦅",
+        "accent": "#9b7dd4",
+        "desc":   "Análisis estadístico del corpus",
+    },
 ]
 
 processes = []   # (app_id, Popen) tuples
