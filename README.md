@@ -1,6 +1,8 @@
-# 🐾 MolfunCognitio
+# 🐾 KullinCognitio
 
-**Fauna del saber** — suite de herramientas para investigación con corpus de prensa.
+**Fauna del saber digital** — *kullin* (animal, ser vivo — mapudungun) + *cognitio* (conocimiento — latín).
+
+Suite de herramientas para investigación con corpus de prensa, organizada como un ecosistema de apps especializadas que interactúan entre sí.
 
 ## Apps
 
@@ -16,10 +18,10 @@ Dashboard en [`localhost:5050`](http://localhost:5050).
 
 ## Setup
 
-```bash
+```powershell
 # Clonar con submódulos
-git clone --recursive https://github.com/heelgueta/MolfunCognitio.git
-cd MolfunCognitio
+git clone --recursive https://github.com/heelgueta/KullinCognitio.git
+cd KullinCognitio
 
 # Si ya clonaste sin --recursive:
 # git submodule update --init --recursive
@@ -36,7 +38,7 @@ python -m spacy download es_core_news_sm  # para LlallinRelatio
 
 ## Uso
 
-```bash
+```powershell
 python launcher.py
 ```
 
@@ -54,7 +56,7 @@ Cada app escribe a `./logs/<app_id>.log`. Útil para debugging cuando un app no 
 ## Estructura
 
 ```
-MolfunCognitio/
+KullinCognitio/
 ├── CulpemCorpus/        [submódulo]
 ├── YeneConservatio/     [submódulo]
 ├── LlallinRelatio/      [submódulo]
@@ -64,4 +66,4 @@ MolfunCognitio/
 └── logs/                ← gitignored
 ```
 
-El launcher también detecta los apps si están como **directorios hermanos** de MolfunCognitio (workflow de desarrollo local).
+El launcher también detecta los apps si están como **directorios hermanos** de KullinCognitio (workflow de desarrollo local).

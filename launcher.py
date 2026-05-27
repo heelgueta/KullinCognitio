@@ -1,5 +1,5 @@
 """
-MolfunCognitio — suite launcher.
+KullinCognitio — suite launcher.
 
 Starts CulpemCorpus, YeneConservatio, and LlallinRelatio as subprocesses,
 then serves a dashboard at http://localhost:5000 that monitors them all.
@@ -140,7 +140,7 @@ def status():
 def main():
     (HERE / "logs").mkdir(exist_ok=True)
 
-    print("🐾 MolfunCognitio — iniciando suite")
+    print("🐾 KullinCognitio — iniciando suite")
     print("=" * 50)
 
     for app in APPS:
