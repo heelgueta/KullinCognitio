@@ -27,15 +27,6 @@ DASHBOARD_PORT = 5050   # 5000 is taken by macOS AirPlay Receiver by default
 
 APPS = [
     {
-        "id":     "culpem",
-        "name":   "CulpemCorpus",
-        "dir":    "CulpemCorpus",
-        "port":   5001,
-        "emoji":  "🦊",
-        "accent": "#e8733a",
-        "desc":   "Scraper de medios para construir corpus académicos",
-    },
-    {
         "id":     "yene",
         "name":   "YeneConservatio",
         "dir":    "YeneConservatio",
@@ -43,6 +34,15 @@ APPS = [
         "emoji":  "🐋",
         "accent": "#2e7fd8",
         "desc":   "Archivo local persistente de medios",
+    },
+    {
+        "id":     "culpem",
+        "name":   "CulpemCorpus",
+        "dir":    "CulpemCorpus",
+        "port":   5001,
+        "emoji":  "🦊",
+        "accent": "#e8733a",
+        "desc":   "Scraper de medios para construir corpus académicos",
     },
     {
         "id":     "llallin",

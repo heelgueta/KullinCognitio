@@ -222,6 +222,11 @@
           <span class="opt-label">Eliminar URLs, emails, líneas basura</span>
         </label>
         <label class="opt-row">
+          <input type="checkbox" id="opt-punct">
+          <span class="opt-label">Limpiar puntuación decorativa</span>
+          <span class="opt-hint">""«»()[]…</span>
+        </label>
+        <label class="opt-row">
           <input type="checkbox" id="opt-accents">
           <span class="opt-label">Eliminar acentos</span>
           <span class="opt-hint">á→a</span>
@@ -375,6 +380,7 @@ function startProcess() {
     mode:           currentMode,
     remove_html:    document.getElementById('opt-html').checked ? '1' : '0',
     remove_junk:    document.getElementById('opt-junk').checked ? '1' : '0',
+    clean_punct:    document.getElementById('opt-punct').checked ? '1' : '0',
     remove_accents: document.getElementById('opt-accents').checked ? '1' : '0',
     replace_n:      document.getElementById('opt-n').checked ? '1' : '0',
     lowercase:      document.getElementById('opt-lower').checked ? '1' : '0',

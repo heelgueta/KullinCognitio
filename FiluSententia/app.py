@@ -181,8 +181,15 @@ def analyse():
             rows = rows[:limit]
 
         total = len(rows)
+        cols  = set(rows[0].keys()) if rows else set()
+
+        # Phrase files (from ÑarkiMundatio split mode): each row IS already a
+        # sentence so title analysis is redundant — body_text has the text.
+        is_phrase_file = "is_title" in cols or "_frases_" in filename
+
         yield _sse({"type": "log", "level": "info",
-                    "msg": f"{total} filas · modelo: {model} · análisis: {analysis}"})
+                    "msg": (f"{total} filas · modelo: {model} · análisis: {analysis}"
+                            + (" · modo frase (sin análisis de título)" if is_phrase_file else ""))})
 
         if not llm.available():
             yield _sse({"type": "log", "level": "error",
@@ -192,10 +199,14 @@ def analyse():
 
         # build extra columns
         if analysis == "sentiment":
-            extra_cols = ["title_sentiment_label", "title_sentiment_score",
-                          "title_sentiment_reason",
-                          "body_sentiment_label",  "body_sentiment_score",
-                          "body_sentiment_reason"]
+            if is_phrase_file:
+                extra_cols = ["body_sentiment_label", "body_sentiment_score",
+                              "body_sentiment_reason"]
+            else:
+                extra_cols = ["title_sentiment_label", "title_sentiment_score",
+                              "title_sentiment_reason",
+                              "body_sentiment_label",  "body_sentiment_score",
+                              "body_sentiment_reason"]
         elif analysis == "content":
             extra_cols = ["content_topic", "content_subtopics",
                           "content_entities", "content_summary"]
@@ -212,11 +223,16 @@ def analyse():
             # ── run LLM ──────────────────────────────────────────────────────
             extra = {}
             if analysis == "sentiment":
-                sys_p, usr_p = prompts.sentiment_prompt(title, body)
-                result_t = llm.generate(model, sys_p, f"TÍTULO: {title[:600]}")
-                result_b = llm.generate(model, sys_p, f"TEXTO: {body[:1200]}")
-                extra.update(prompts.sentiment_extract(result_t, prefix="title"))
-                extra.update(prompts.sentiment_extract(result_b, prefix="body"))
+                sys_p = prompts.SENTIMENT_SYSTEM
+                if is_phrase_file:
+                    # Each row is a sentence; analyze body_text directly
+                    result_b = llm.generate(model, sys_p, f"TEXTO: {body[:1200]}")
+                    extra.update(prompts.sentiment_extract(result_b, prefix="body"))
+                else:
+                    result_t = llm.generate(model, sys_p, f"TÍTULO: {title[:600]}")
+                    result_b = llm.generate(model, sys_p, f"TEXTO: {body[:1200]}")
+                    extra.update(prompts.sentiment_extract(result_t, prefix="title"))
+                    extra.update(prompts.sentiment_extract(result_b, prefix="body"))
 
             elif analysis == "content":
                 sys_p, usr_p = prompts.content_prompt(title, body)
@@ -238,10 +254,14 @@ def analyse():
 
             # build a short result summary for the log
             if analysis == "sentiment":
-                summary = (f"título: {extra.get('title_sentiment_label','')} "
-                           f"({extra.get('title_sentiment_score','')}) | "
-                           f"cuerpo: {extra.get('body_sentiment_label','')} "
-                           f"({extra.get('body_sentiment_score','')})")
+                if is_phrase_file:
+                    summary = (f"{extra.get('body_sentiment_label','')} "
+                               f"({extra.get('body_sentiment_score','')})")
+                else:
+                    summary = (f"título: {extra.get('title_sentiment_label','')} "
+                               f"({extra.get('title_sentiment_score','')}) | "
+                               f"cuerpo: {extra.get('body_sentiment_label','')} "
+                               f"({extra.get('body_sentiment_score','')})")
             elif analysis == "content":
                 summary = extra.get("content_topic", "")
             else:
