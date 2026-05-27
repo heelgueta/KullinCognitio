@@ -71,6 +71,15 @@ APPS = [
         "accent": "#9b7dd4",
         "desc":   "Análisis estadístico del corpus",
     },
+    {
+        "id":     "filu",
+        "name":   "FiluSententia",
+        "dir":    "FiluSententia",
+        "port":   5006,
+        "emoji":  "🐍",
+        "accent": "#8bc44c",
+        "desc":   "Análisis LLM: sentimiento, contenido y preguntas sí/no",
+    },
 ]
 
 processes = []   # (app_id, Popen) tuples

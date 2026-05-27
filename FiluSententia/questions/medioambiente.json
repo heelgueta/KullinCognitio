@@ -1,0 +1,11 @@
+{
+  "id": "medioambiente",
+  "name": "Medioambiente y clima",
+  "questions": [
+    {"id": "q1", "text": "¿El artículo menciona el cambio climático o calentamiento global?"},
+    {"id": "q2", "text": "¿Se mencionan políticas o acuerdos medioambientales?"},
+    {"id": "q3", "text": "¿Aparecen organizaciones o activistas medioambientales?"},
+    {"id": "q4", "text": "¿El tono del artículo es alarmista respecto al medioambiente?"},
+    {"id": "q5", "text": "¿Se mencionan soluciones o propuestas concretas?"}
+  ]
+}

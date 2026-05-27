@@ -1,0 +1,11 @@
+{
+  "id": "politica_local",
+  "name": "Política local y regional",
+  "questions": [
+    {"id": "q1", "text": "¿El artículo menciona autoridades o funcionarios regionales?"},
+    {"id": "q2", "text": "¿Se hace referencia a decisiones o políticas públicas locales?"},
+    {"id": "q3", "text": "¿Hay críticas explícitas hacia alguna autoridad o institución?"},
+    {"id": "q4", "text": "¿El artículo cita fuentes oficiales o gubernamentales?"},
+    {"id": "q5", "text": "¿Se mencionan demandas o protestas ciudadanas?"}
+  ]
+}
