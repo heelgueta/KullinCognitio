@@ -15,6 +15,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Windows consoles default to cp1252 and choke on emojis; reconfigure stdout.
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 HERE = Path(__file__).parent.resolve()
 VENV = HERE / ".venv"
 MARK = VENV / ".installed"

@@ -4,6 +4,10 @@ REM Double-click this file to bootstrap (.venv + deps) and start the suite.
 
 cd /d "%~dp0"
 
+REM Force UTF-8 so the console doesn't choke on emojis / accents
+set PYTHONIOENCODING=utf-8
+set PYTHONUTF8=1
+
 REM Prefer the py launcher (handles multiple Python versions); fall back to python.
 where py >nul 2>nul
 if %errorlevel%==0 (
